@@ -1,0 +1,40 @@
+@tailwind base;
+
+h1 {
+    @apply text-2xl;
+  }
+
+h2 {
+    @apply text-xl;
+}
+
+h3 {
+    @apply text-lg;
+}
+
+.btn {
+    @apply px-3 py-2 rounded-md;
+}
+
+.btn-primary {
+    @apply bg-green text-white-100;
+}
+
+input[type=text], input[type=password] {
+    width:100%;
+    border: 2px solid #aaa;
+    border-radius: 4px;
+    margin: 8px 0;
+    outline: none;
+    padding: 8px;
+    box-sizing: border-box;
+    transition: .3s;
+  }
+  
+  input[type=text]:focus{
+    border-color:dodgerBlue;
+    box-shadow:0 0 8px 0 dodgerBlue;
+  }
+
+@tailwind components;
+@tailwind utilities;
