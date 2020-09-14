@@ -2,5 +2,8 @@ import { PokemonTCG } from 'pokemon-tcg-sdk-typescript'
 
 export type Deck = {
   name: string,
-  cards: PokemonTCG.ICard[]
+  id: string,
+  expandedLegal: boolean,
+  standardLegal: boolean,
+  cards?: PokemonTCG.ICard[]
 }

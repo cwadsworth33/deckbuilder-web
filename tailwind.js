@@ -25,12 +25,17 @@ module.exports = {
       },
       error: '#c04760',
       gray: {
+        'light': '#eaeae9',
+        'med': '#c1bfbe',
         '300': '#302b27'
       },
       white: {
         '100': '#f5f3f5'
       },
-      green: "#006a46"
+      green: "#006a46",
+      orange: {
+        dull: '#A89257'
+      }
     },
     spacing: {
       px: '1px',
@@ -275,6 +280,7 @@ module.exports = {
       '25': '0.25',
       '50': '0.5',
       '75': '0.75',
+      '90': '0.90',
       '100': '1',
     },
     order: {

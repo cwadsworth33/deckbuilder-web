@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { SignUpReq } from '../models/SignUp';
-import { toastService } from '../services/ui/ToastService';
-import { myUserService } from '../services/DataServices';
+import { ServiceContext } from '../App';
 
-export function SignUpForm(props: any) {
+export function SignUpForm() {
 
   const { register, handleSubmit } = useForm<SignUpReq>();
+  const { myUserService, toastService } = useContext(ServiceContext);
   const history = useHistory();
 
   const onSubmit = (data: SignUpReq) => myUserService.signUp(data)

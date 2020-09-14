@@ -15,6 +15,7 @@ export class MyUserService {
   }
 
   public getIsLoggedIn(): Observable<boolean> {
+    return of(true);
     return this.isLoggedIn.asObservable();
   }
 

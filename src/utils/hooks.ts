@@ -9,3 +9,15 @@ export const useConnectObservable = <T>(observable: Observable<T>, initialVal: T
   }, [])
   return val;
 }
+
+export const useEscapeListener = (escapeFn: Function) => {
+  const wrappedEscapeFn = (e: KeyboardEvent) => {
+    if(e.keyCode === 27) {
+      escapeFn();
+    }
+  }
+  useEffect(() => {
+    document.addEventListener("keydown", wrappedEscapeFn);
+    return () => document.removeEventListener("keydown", wrappedEscapeFn);
+  }, [])
+}
