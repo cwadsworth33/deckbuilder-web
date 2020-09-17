@@ -6,7 +6,6 @@ import { Decklist } from './decklist';
 import { Deck } from '../models/Deck';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useModal } from '../components/modal';
-import { TooltipContainer, Tooltip } from '../components/Tooltip';
 
 export function Dashboard() {
   const history = useHistory();
@@ -30,7 +29,7 @@ export function Dashboard() {
     <>
       <NewDeckModal showModal={showModal} closeModal={() => closeModal()} />
       <div className="p-3 bg-blue-100 h-screen">
-      <button className="btn btn-primary" onClick={logout}>Logout</button>
+        <button className="btn btn-primary" onClick={logout}>Logout</button>
         <h1 className="text-center text-white-100 mb-5">
           <span className="mr-2">My Decks</span>
           <FontAwesomeIcon icon="plus" className="cursor-pointer" onClick={() => openModal()} />

@@ -20,15 +20,20 @@ h3 {
     @apply bg-green text-white-100;
 }
 
+.btn-primary.disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
 input[type=text], input[type=password] {
     width:100%;
     border: 2px solid #aaa;
     border-radius: 4px;
-    margin: 8px 0;
     outline: none;
     padding: 8px;
     box-sizing: border-box;
     transition: .3s;
+    color: black;
   }
   
   input[type=text]:focus{

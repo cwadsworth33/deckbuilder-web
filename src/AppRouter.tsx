@@ -7,6 +7,7 @@ import { PreLoginLayout } from "./layout/pre-login";
 import { LogoutGuardedRoute, LoginGuardedRoute } from "./components/guarded-route";
 import { useConnectObservable } from "./utils/hooks";
 import { ServiceContext } from "./App";
+import { PostLoginRouter } from "./post-login/PostLoginRouter";
 
 export function AppRouter() {
   
@@ -30,9 +31,9 @@ export function AppRouter() {
             </PreLoginLayout>
           </LogoutGuardedRoute>
 				</Route>
-        <Route exact path="/dashboard">
+        <Route path="/dashboard">
           <LoginGuardedRoute isAuthenticated={isAuthenticated}>
-            <Dashboard />
+            <PostLoginRouter />
           </LoginGuardedRoute>
         </Route>
 			</Switch>

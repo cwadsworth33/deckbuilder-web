@@ -5,5 +5,5 @@ export type Deck = {
   id: string,
   expandedLegal: boolean,
   standardLegal: boolean,
-  cards?: PokemonTCG.ICard[]
+  cards: PokemonTCG.ICard[]
 }

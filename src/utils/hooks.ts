@@ -1,5 +1,6 @@
 import { Observable } from "rxjs";
 import { useState, useEffect } from "react";
+import { useLocation, useParams } from "react-router-dom";
 
 export const useConnectObservable = <T>(observable: Observable<T>, initialVal: T): T => {
   const [val, setVal] = useState(initialVal);
