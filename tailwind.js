@@ -17,20 +17,29 @@ module.exports = {
 
       black: '#000',
       white: '#fff',
+      yellow: {
+        'gold': '#FFDF00'
+      },
 
       blue: {
         '100': '#1b264f',
         '200': '#274690',
-        '500': '#576ca8'
+        '500': '#576ca8',
+        'electric': '#7DF9FF'
       },
       error: '#c04760',
       gray: {
+        'light': '#eaeae9',
+        'med': '#c1bfbe',
         '300': '#302b27'
       },
       white: {
         '100': '#f5f3f5'
       },
-      green: "#006a46"
+      green: "#006a46",
+      orange: {
+        dull: '#A89257'
+      }
     },
     spacing: {
       px: '1px',
@@ -275,6 +284,7 @@ module.exports = {
       '25': '0.25',
       '50': '0.5',
       '75': '0.75',
+      '90': '0.90',
       '100': '1',
     },
     order: {

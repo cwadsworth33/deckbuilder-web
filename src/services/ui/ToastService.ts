@@ -5,7 +5,7 @@ export enum ToastType {
   error = 'error'
 };
 
-class ToastService {
+export class ToastService {
 
   private toasts = new BehaviorSubject<Toast[]>([]);
 
@@ -42,5 +42,3 @@ export class Toast {
     this.visible = visible ? visible : true;
   }
 }
-
-export const toastService = new ToastService();

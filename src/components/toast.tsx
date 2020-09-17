@@ -1,18 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import { Toast as ToastModel, toastService, ToastType } from '../services/ui/ToastService';
-import { Subscription } from 'rxjs';
+import React, { useContext } from 'react';
+import { Toast as ToastModel, ToastType } from '../services/ui/ToastService';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { classNameUtil } from '../utils';
+import { ServiceContext } from '../App';
+import { useConnectObservable } from '../utils/hooks';
 
 export function Toast ({toastModel, id}: ToastProps) {
+
+  const { toastService } = useContext(ServiceContext);
+
   const wrapperClassList = classNameUtil(
     'text-white-100 p-4 w-4/5 rounded-md transition duration-500 ease-in-out mt-4 items-center flex', { 
     'opacity-100': toastModel.visible,
     'opacity-0': !toastModel.visible,
     'bg-green': toastModel.type === ToastType.success,
     'bg-error': toastModel.type === ToastType.error
-  }
-  );
+  });
   return (
     <div className={wrapperClassList}>
       <div className="flex-grow">{toastModel.message}</div>
@@ -26,14 +29,10 @@ interface ToastProps {
   id: number;
 }
 
-export const Toasts = () => {
+export const Toasts: React.FC = () => {
 
-  const [toasts, setToasts] = useState([] as ToastModel[]);
-  
-  useEffect(() => {
-    const sub: Subscription = toastService.getToasts().subscribe(ts => setToasts(ts));
-    return function cleanUp() { sub.unsubscribe(); }
-  }, [])
+  const { toastService } = useContext(ServiceContext);
+  const toasts = useConnectObservable(toastService.getToasts(), []);
 
   return (
     <div className="absolute top-0 w-full flex justify-center flex-col items-center">

@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { LoginReq } from "../models/SignUp";
 import { useForm } from "react-hook-form";
-import { myUserService } from "../services/DataServices";
+import { ServiceContext } from "../App";
 
 export function LoginForm() {
 
   const { register, handleSubmit } = useForm<LoginReq>();
+  const { myUserService } = useContext(ServiceContext);
   const history = useHistory();
 
   const onSubmit = (data: LoginReq) => myUserService.login(data).then(() => history.push('/dashboard'));
