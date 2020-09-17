@@ -1,11 +1,13 @@
 import axios, { AxiosInstance } from 'axios';
+import { DeckService } from './services/DeckService';
 import { MyUserService } from './services/MyUserService';
 import { ToastService } from './services/ui/ToastService';
 
 type AppServices = {
   http: AxiosInstance,
   myUserService: MyUserService,
-  toastService: ToastService
+  toastService: ToastService,
+  deckService: DeckService
 }
 
 const http: AxiosInstance = axios.create({
@@ -15,9 +17,11 @@ const http: AxiosInstance = axios.create({
 });
 const myUserService = new MyUserService(http);
 const toastService = new ToastService();
+const deckService = new DeckService();
 
 export default {
   http,
   myUserService,
-  toastService
+  toastService,
+  deckService
 } as AppServices;

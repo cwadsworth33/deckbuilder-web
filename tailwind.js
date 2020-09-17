@@ -17,11 +17,15 @@ module.exports = {
 
       black: '#000',
       white: '#fff',
+      yellow: {
+        'gold': '#FFDF00'
+      },
 
       blue: {
         '100': '#1b264f',
         '200': '#274690',
-        '500': '#576ca8'
+        '500': '#576ca8',
+        'electric': '#7DF9FF'
       },
       error: '#c04760',
       gray: {
