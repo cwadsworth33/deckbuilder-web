@@ -17,7 +17,7 @@ const http: AxiosInstance = axios.create({
 });
 const myUserService = new MyUserService(http);
 const toastService = new ToastService();
-const deckService = new DeckService();
+const deckService = new DeckService(http);
 
 export default {
   http,

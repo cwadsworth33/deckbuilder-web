@@ -3,11 +3,11 @@ import './App.css';
 import { AppRouter } from './AppRouter';
 import { Toasts } from './components/toast';
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faTimes, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faTimes, faPlus, faTrash, faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import { fab } from '@fortawesome/free-brands-svg-icons'
 import AppServices from './AppServices';
 
-library.add(fab, faTimes, faPlus, faTrash);
+library.add(fab, faTimes, faPlus, faTrash, faArrowLeft);
 
 export const ServiceContext = React.createContext(AppServices);
 

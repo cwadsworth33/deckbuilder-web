@@ -1,46 +1,45 @@
 import { SignUpReq, User, LoginReq } from "../models/SignUp";
 import { AxiosResponse, AxiosInstance } from "axios";
-import { BehaviorSubject, Observable, of } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
 
 export class MyUserService {
 
-  private myUser = new BehaviorSubject<User | null>(null);
+  private myUserId = new BehaviorSubject<string | null>(localStorage.getItem('userId'));
   private isLoggedIn = new BehaviorSubject<boolean>(!!localStorage.getItem('authorizationHeader'));
 
   constructor(private http: AxiosInstance) {
     const authHeader = localStorage.getItem('authorizationHeader');
     if (authHeader) {
       this.setAuthorizationHeader(authHeader);
+      console.log('authHeader', authHeader);
     }
   }
 
   public getIsLoggedIn(): Observable<boolean> {
-    return of(true);
     return this.isLoggedIn.asObservable();
   }
 
-  public getMyUser(): Observable<User | null> {
-    return this.myUser.asObservable();
+  public getMyUserId(): Observable<string | null> {
+    return this.myUserId.asObservable();
   }
 
   public signUp(signUpReq: SignUpReq): Promise<AxiosResponse<User>> {
-    return this.http.post('/users', signUpReq).then(res => {
-      this.myUser.next(res.data);
-      return res;
-    });
+    return this.http.post('/users', signUpReq);
   }
 
   public setAuthorizationHeader(authHeader: string): void {
     if (authHeader) {
       this.isLoggedIn.next(true);
       localStorage.setItem('authorizationHeader', authHeader);
+      console.log('setting interceptors!');
+      this.http.interceptors.request.use(req => {
+        req.headers.authorization = authHeader;
+        console.log(req);
+        return req;
+      });
     } else {
       this.isLoggedIn.next(false);
     }
-    this.http.interceptors.request.use(config => {
-      config.headers.post['authorization'] = authHeader;
-      return config;
-    });
   }
 
   public logout(): void {
@@ -50,8 +49,13 @@ export class MyUserService {
 
   public login(loginReq: LoginReq): Promise<AxiosResponse<null>> {
     return this.http.post('/login', loginReq).then(res => {
+      console.log(res);
       if (res && res.headers && res.headers.authorization) {
         this.setAuthorizationHeader(res.headers.authorization);
+      }
+      if (res && res.headers && res.headers.userid) {
+        this.myUserId.next(res.headers.userid);
+        localStorage.setItem('userId', res.headers.userid);
       }
       return res;
     });

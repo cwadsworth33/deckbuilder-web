@@ -9,7 +9,7 @@ export type DeckListProps = {
 export const Decklist: React.FC<DeckListProps> = ({decks}) => {
   return (
     <div className="grid grid-flow-col grid-cols-3 grid-rows-3 gap-4">
-      { decks.map(d => <DeckCard deck={d} key={d.id} />) }
+      { decks.map(d => <DeckCard deck={d} key={d.deckId} />) }
     </div>
   )
 }

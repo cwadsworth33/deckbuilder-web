@@ -1,13 +1,19 @@
-import React from "react"
+import React, { useContext } from "react"
 import { Modal, ModalProps, ModalHeader, ModalBody, ModalFooter } from "../../components/modal"
 import { useForm } from "react-hook-form";
 import { Deck } from "../../models/Deck";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { ServiceContext } from "../../App";
+import { useConnectObservable } from "../../utils/hooks";
 
 export const NewDeckModal: React.FC<ModalProps> = ({showModal, closeModal}: ModalProps) => {
   const { register, handleSubmit } = useForm<Deck>();
+  const { deckService, myUserService } = useContext(ServiceContext);
+  const userId = useConnectObservable(myUserService.getMyUserId(), localStorage.getItem('userId'));
   const onSubmit = (deck: Deck) => {
-    console.log(deck);
+    deck.cards = [];
+    deckService.createDeck(userId ? userId : '', deck)
+      .then(res => closeModal());
   }
   return (
     <Modal showModal={showModal} closeModal={closeModal}>

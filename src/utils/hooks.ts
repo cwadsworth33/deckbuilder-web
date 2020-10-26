@@ -5,7 +5,10 @@ import { useLocation, useParams } from "react-router-dom";
 export const useConnectObservable = <T>(observable: Observable<T>, initialVal: T): T => {
   const [val, setVal] = useState(initialVal);
   useEffect(() => {
-    const sub = observable.subscribe(setVal);
+    const sub = observable.subscribe((val) => {
+      console.log(val);
+      setVal(val);
+    });
     return () => sub.unsubscribe()
   }, [])
   return val;

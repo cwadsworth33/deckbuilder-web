@@ -1,5 +1,6 @@
 import React from "react"
 import { Route, Router, Switch, useHistory, useRouteMatch } from "react-router-dom"
+import { DecksResolver } from "../resolvers/DecksResolver";
 import { Dashboard } from "./dashboard"
 import { DeckDetailsRouter } from "./DeckDetails/DeckDetailsRouter";
 
@@ -12,10 +13,14 @@ export const PostLoginRouter: React.FC = () => {
     <Router history={history}>
       <Switch>
         <Route exact path={path}>
-          <Dashboard />
+          <DecksResolver>
+            <Dashboard />
+          </DecksResolver>
         </Route>
         <Route path={`${path}/decks/:deckId`}>
-          <DeckDetailsRouter />
+          <DecksResolver>
+            <DeckDetailsRouter />
+          </DecksResolver>
         </Route>
       </Switch>
     </Router>
