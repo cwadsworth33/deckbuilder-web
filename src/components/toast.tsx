@@ -10,7 +10,7 @@ export function Toast ({toastModel, id}: ToastProps) {
   const { toastService } = useContext(ServiceContext);
 
   const wrapperClassList = classNameUtil(
-    'text-white-100 p-4 w-4/5 rounded-md transition duration-500 ease-in-out mt-4 items-center flex', { 
+    'text-white-100 p-4 w-4/5 rounded-md transition duration-500 ease-in-out mt-4 items-center flex z-50', { 
     'opacity-100': toastModel.visible,
     'opacity-0': !toastModel.visible,
     'bg-green': toastModel.type === ToastType.success,

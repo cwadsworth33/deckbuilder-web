@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, HashRouter } from "react-router-dom";
 import { SignUpForm } from "./login/SignUpForm";
 import { LoginForm } from "./login/LoginForm";
 import { Dashboard } from "./post-login/dashboard";

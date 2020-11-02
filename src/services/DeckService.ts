@@ -1,31 +1,65 @@
-import { Card } from "pokemon-tcg-sdk-typescript/dist/sdk";
 import { BehaviorSubject, Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { Deck } from "../models/Deck";
+import { AxiosInstance, AxiosResponse } from 'axios';
 
 export class DeckService {
-  private _deckDictionary = new BehaviorSubject<{[key: string]: Deck}>({
-    '1': { name: 'Deck 1', expandedLegal: false, standardLegal: false, cards: [], id: '1' },
-    '2': { name: 'Deck 2', expandedLegal: true, standardLegal: true, cards: [], id: '2' },
-    '3': { name: 'Deck 3', expandedLegal: false, standardLegal: true, cards: [], id: '3' },
-    '4': { name: 'Deck 4', expandedLegal: true, standardLegal: true, cards: [], id: '4' },
-    '5': { name: 'Deck 5', expandedLegal: true, standardLegal: false, cards: [], id: '5' },
-    '6': { name: 'Deck 6', expandedLegal: true, standardLegal: true, cards: [], id: '6' }
-  });
+  private _userDecks = new BehaviorSubject<Deck[]>([]);
 
-  getDecks(): Observable<object> {
-    return this._deckDictionary.asObservable();
+  constructor(private http: AxiosInstance) {}
+
+  fetchDecks(userId: string | null): Promise<Deck[]> {
+    return this.http.get<Deck[]>(`/users/${userId}/decks`)
+      .then((res) => {
+        this._userDecks.next(res.data);
+        return res.data;
+      });
+  }
+
+  getDecks(): Observable<Deck[]> {
+    return this._userDecks.asObservable();
   }
 
   getDeck(id: string) {
     return this.getDecks().pipe(
-      map((deckDict: any) => deckDict ? deckDict[id] : undefined)
+      map((deckArr: Deck[]) => deckArr ? deckArr.find(d => d.deckId === id) : undefined)
     )
   }
 
-  addCards(deckId: string, cards: Card[]) {
-    const curVal = this._deckDictionary.value;
-    const nextVal = { ...curVal, [deckId]: { ...curVal[deckId], cards: [...curVal[deckId].cards, ...cards]} };
-    this._deckDictionary.next(nextVal);
+  updateDeck(deckId: string, deck: Deck): Promise<void | Deck> {
+    return this.http.put(`/decks/${deckId}`, deck)
+      .then(res => {
+        if (res && res.data) {
+          const curUserDecks = this._userDecks.value;
+          if (curUserDecks) {
+            this._userDecks.next(curUserDecks.map(d => {
+              if (d.deckId === deckId) {
+                return res.data
+              }
+              return d;
+            }))
+          }
+        }
+      })
+  }
+
+  deleteDeck(userId: string, deckId: string): Promise<void | Deck[]> {
+    return this.http.delete(`/users/${userId}/decks/${deckId}`)
+      .then(res => {
+        if (res.data) {
+          this._userDecks.next(res.data)
+        }
+      });
+  }
+
+  createDeck(userId: string, deck: Deck): Promise<void | AxiosResponse<Deck>> {
+    return this.http.post(`/users/${userId}/decks`, deck)
+      .then(res => {
+        if (res.data) {
+          const curVal = this._userDecks.value;
+          this._userDecks.next(curVal.concat(res.data))
+        }
+        return res;
+      })
   }
 }
