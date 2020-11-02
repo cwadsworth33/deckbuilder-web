@@ -11,11 +11,14 @@ type AppServices = {
 }
 
 const http: AxiosInstance = axios.create({
-  baseURL: '',
-  timeout: 1000,
-  headers: {'X-Custom-Header': 'foobar'}
+  baseURL: '/api',
+  timeout: 1000
 });
-const myUserService = new MyUserService(http);
+const login: AxiosInstance = axios.create({
+  baseURL: '/',
+  timeout: 1000
+});
+const myUserService = new MyUserService(http, login);
 const toastService = new ToastService();
 const deckService = new DeckService(http);
 

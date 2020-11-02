@@ -7,13 +7,13 @@ import { Deck } from '../models/Deck';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useModal } from '../components/modal';
 import { useConnectObservable } from '../utils/hooks';
-import { DecksResolver } from '../resolvers/DecksResolver';
 
 export function Dashboard() {
   const history = useHistory();
   const [showModal, openModal, closeModal] = useModal(false);
   const { myUserService, deckService } = useContext(ServiceContext);
-  const decks = useConnectObservable<Deck[]>(deckService.getDecks(), []);
+  const decks = useConnectObservable<Deck[] | undefined>(deckService.getDecks(), undefined);
+
   const logout = () => {
     myUserService.logout();
     history.push('/');
@@ -23,7 +23,10 @@ export function Dashboard() {
     <>
       <NewDeckModal showModal={showModal} closeModal={() => closeModal()} />
       <div className="p-3 bg-blue-100 h-screen">
-        <button className="btn btn-primary" onClick={logout}>Logout</button>
+        <div className="flex">
+          <div className="flex-grow"></div>
+          <button className="btn btn-primary" onClick={logout}>Logout</button>
+        </div>
         <h1 className="text-center text-white-100 mb-5">
           <span className="mr-2">My Decks</span>
           <FontAwesomeIcon icon="plus" className="cursor-pointer" onClick={() => openModal()} />

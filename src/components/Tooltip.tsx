@@ -16,7 +16,6 @@ export const TooltipContainer: React.FC<TooltipContainerProps> = ({children, Too
 
   const [tooltipVisible, setTooltipVisible] = useState(false);
   const showTooltip = () => {
-    console.log('showing tooltip!')
     setTooltipVisible(true)
   };
   const hideTooltip = () => setTooltipVisible(false);

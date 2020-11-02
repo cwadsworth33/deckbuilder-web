@@ -19,22 +19,22 @@ export const CardSearch: React.FC = () => {
     const query: IQuery[] = [{name: 'name', value: val.name}];
     PokemonTCG.Card.where(query).then(res => {
       setCards(res);
-      console.log(res);
     });
   };
 
-  const { deckService } = useContext(ServiceContext);
+  const { deckService, toastService } = useContext(ServiceContext);
   const deck = useConnectObservable(deckService.getDeck(deckId), undefined);
 
   const toggleSelectCard = (id: string) => setSelectedCards({...selectedCards, [id]: !selectedCards[id]});
 
   const addCards = () => {
-    console.log(deck);
     if (deck) {
       const updatedDeck = {
         ...deck, cards: [...deck.cards, ...Object.keys(selectedCards).filter(key => selectedCards[key])]
       }
       deckService.updateDeck(deckId, updatedDeck)
+        .then(() => toastService.showSuccessToast('Successfully added cards to deck.'))
+        .catch(() => toastService.showErrorToast('Failed to add cards to deck.'))
     }
   }
 
@@ -52,7 +52,7 @@ export const CardSearch: React.FC = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <label className="block">Card Name:</label>
         <input type="text" className="max-w-sm mb-4 mt-2 mr-4" name="name" ref={register({ required: true })} />
-        <button className={classNameUtil("btn btn-primary mb-2", {disabled: errors})} type="submit">Search</button>
+        <button className="btn btn-primary mb-2" type="submit">Search</button>
       </form>
       <div className="flex-grow overflow-y-auto">
         {cards.map(card => {

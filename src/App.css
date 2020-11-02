@@ -38,17 +38,13 @@
 }
 
 .fab {
-  background-color:'#A89257';
   position: absolute;
-  right: 0;
-  top: -5px;
   display: flex;
   align-items: center;
   justify-content: center;
   width:40px;
   height:40px;
   border-radius:100%;
-  background:#A89257;
   border:none;
   outline:none;
   color:#FFF;

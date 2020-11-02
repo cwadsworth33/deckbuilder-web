@@ -7,11 +7,10 @@ export class MyUserService {
   private myUserId = new BehaviorSubject<string | null>(localStorage.getItem('userId'));
   private isLoggedIn = new BehaviorSubject<boolean>(!!localStorage.getItem('authorizationHeader'));
 
-  constructor(private http: AxiosInstance) {
+  constructor(private http: AxiosInstance, private loginApi: AxiosInstance) {
     const authHeader = localStorage.getItem('authorizationHeader');
     if (authHeader) {
       this.setAuthorizationHeader(authHeader);
-      console.log('authHeader', authHeader);
     }
   }
 
@@ -31,10 +30,8 @@ export class MyUserService {
     if (authHeader) {
       this.isLoggedIn.next(true);
       localStorage.setItem('authorizationHeader', authHeader);
-      console.log('setting interceptors!');
       this.http.interceptors.request.use(req => {
         req.headers.authorization = authHeader;
-        console.log(req);
         return req;
       });
     } else {
@@ -43,13 +40,14 @@ export class MyUserService {
   }
 
   public logout(): void {
-    localStorage.clear();
+    localStorage.removeItem('authorizationHeader');
+    localStorage.removeItem('userId');
     this.isLoggedIn.next(false);
+    window.location.reload();
   }
 
   public login(loginReq: LoginReq): Promise<AxiosResponse<null>> {
-    return this.http.post('/login', loginReq).then(res => {
-      console.log(res);
+    return this.loginApi.post('/login', loginReq).then(res => {
       if (res && res.headers && res.headers.authorization) {
         this.setAuthorizationHeader(res.headers.authorization);
       }
@@ -57,7 +55,7 @@ export class MyUserService {
         this.myUserId.next(res.headers.userid);
         localStorage.setItem('userId', res.headers.userid);
       }
-      return res;
+      return new Promise(function(resolve) { setTimeout(resolve, 100) });
     });
   }
 }

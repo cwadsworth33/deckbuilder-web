@@ -1,4 +1,4 @@
-import { BehaviorSubject, Observable, of } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { Deck } from "../models/Deck";
 import { AxiosInstance, AxiosResponse } from 'axios';
@@ -52,7 +52,14 @@ export class DeckService {
       });
   }
 
-  createDeck(userId: string, deck: Deck) {
-    return this.http.post(`/users/${userId}/decks`, deck);
+  createDeck(userId: string, deck: Deck): Promise<void | AxiosResponse<Deck>> {
+    return this.http.post(`/users/${userId}/decks`, deck)
+      .then(res => {
+        if (res.data) {
+          const curVal = this._userDecks.value;
+          this._userDecks.next(curVal.concat(res.data))
+        }
+        return res;
+      })
   }
 }

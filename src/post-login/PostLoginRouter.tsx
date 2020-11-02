@@ -1,5 +1,5 @@
 import React from "react"
-import { Route, Router, Switch, useHistory, useRouteMatch } from "react-router-dom"
+import { HashRouter, Route, Router, Switch, useHistory, useRouteMatch } from "react-router-dom"
 import { DecksResolver } from "../resolvers/DecksResolver";
 import { Dashboard } from "./dashboard"
 import { DeckDetailsRouter } from "./DeckDetails/DeckDetailsRouter";
